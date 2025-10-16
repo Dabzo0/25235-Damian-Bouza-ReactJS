@@ -34,9 +34,15 @@ const ListaDeProductos=({categoria="electronics"})=>{
     };
     
     return(
-        <Row>
+        <Row className="justify-content-center">
             {productos.map((producto)=> (
-                <Col md={3} key={producto.id} className="mb-4">
+                <Col
+                    xs={12}
+                    sm={6}
+                    md={4}
+                    lg={3} 
+                    key={producto.id}
+                    className="mb-4">
                     <CardProducto producto={producto} AgregarAlCarrito={handleAgregarAlCarrito}/>
                 </Col>
             ))
