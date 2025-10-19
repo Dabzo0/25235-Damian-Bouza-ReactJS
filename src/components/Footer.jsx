@@ -17,13 +17,13 @@ import { faFacebook, faInstagram, faWhatsapp } from "@fortawesome/free-brands-sv
             </a>          
           </Col>
           <Col md={6} className="text-center pb-2 order-1 order-md-2">
-            <a href="https://www.instagram.com/damian_b84/" className="text-white text-decoration-none text-nowrap" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.facebook.com/damian.bouza" className="text-white text-decoration-none text-nowrap" target="_blank" rel="noopener noreferrer">
               <FontAwesomeIcon icon={faFacebook} style={{color: "#ffffff"}} size="2xl"/>
             </a>
             <a href="https://www.instagram.com/damian_b84/" className="text-white text-decoration-none text-nowrap" target="_blank" rel="noopener noreferrer">
               <FontAwesomeIcon icon={faInstagram} style={{color: "#ffffff"}} size="2xl" />
             </a>
-            <a href="https://www.instagram.com/damian_b84/" className="text-white text-decoration-none text-nowrap" target="_blank" rel="noopener noreferrer">
+            <a href="https://wa.me/5491164195021" className="text-white text-decoration-none text-nowrap" target="_blank" rel="noopener noreferrer">
               <FontAwesomeIcon icon={faWhatsapp} style={{color: "#ffffff"}} size="2xl" />
             </a>
           </Col>        
@@ -31,7 +31,7 @@ import { faFacebook, faInstagram, faWhatsapp } from "@fortawesome/free-brands-sv
       </Container>
       
       <p className="mb-0 fs-6 text-nowrap">
-        &copy; Todos los derechos reservados.
+        &copy; 2025 Todos los derechos reservados.
       </p>
     </footer>
   );

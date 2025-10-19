@@ -1,4 +1,5 @@
-# React + Vite
+>> IMPORTANTE
+
 Dependencias necesarias:
     Bootstrap
     npm install bootstrap react-bootstrap
