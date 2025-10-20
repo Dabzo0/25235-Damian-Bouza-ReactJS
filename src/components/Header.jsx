@@ -1,11 +1,13 @@
 import { Navbar, Container, Nav, Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import Login from './Login'
-
+import { useContext } from 'react';
+import { UsuarioData } from '../contexts/UsuarioReconocido';
 
 export default function Header() {
   const navigate = useNavigate();
   const isAuth = localStorage.getItem('auth') === 'true';
+  const { usuario } = useContext(UsuarioData);
 
   const cerrarSesion = () => {
         localStorage.removeItem('auth');
@@ -37,13 +39,16 @@ export default function Header() {
           </Nav>   
         
           <Nav >
+            <Nav.Link as={Link} to="/">Comprar</Nav.Link>
             {/* Mostrar botón de "Login" o "Cerrar seción" según autenticación */}
             {!isAuth ? (
               <Login/>
             ) : (
               <>
               <Nav.Link as={Link} to="/perfil/usuario">Perfil</Nav.Link>
-              <Nav.Link as={Link} to="/admin">Administrar</Nav.Link>
+              {usuario?.nivel === 'administrador' && (
+                <Nav.Link as={Link} to="/admin">Administrar</Nav.Link>
+              )}
               <Button variant="outline-light" onClick={cerrarSesion}>Cerrar sesión</Button>
               </>
             )}

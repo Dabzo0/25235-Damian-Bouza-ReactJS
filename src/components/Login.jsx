@@ -7,6 +7,8 @@ const VentanaLogin = () => {
   
   const navigate = useNavigate();
   const { setUsuario } = useContext(UsuarioData);
+  const [esAdmin, setEsAdmin] = useState(false);
+
 
   {/*Controles de estado para la visibilidad del Modal*/}
   const [show, setShow] = useState(false);
@@ -21,7 +23,7 @@ const VentanaLogin = () => {
     e.preventDefault();// Previene el recargo de la página por el formulario
     setLoading(true); // Al iniciar   
     
-    fetch('https://randomuser.me/api')
+    fetch('https://randomuser.me/api') // Este fetch deberia cargar UsuarioData solo con el ID de usuario.
 
       .then(res => {
         if (!res.ok) { throw new Error('Error de red o respuesta del servidor fallida');}
@@ -29,7 +31,7 @@ const VentanaLogin = () => {
       })
 
       .then(data=>{
-        setUsuario(data.results[0]);
+        setUsuario({ nivel: esAdmin ? 'administrador' : 'usuario', ...data.results[0] });
         localStorage.setItem('auth', 'true');
         setShow(false);
         navigate('/');
@@ -71,6 +73,15 @@ const VentanaLogin = () => {
             <Form.Group className="mb-3">
               <Form.Label>Contraseña</Form.Label>
               <Form.Control type="password" placeholder='Ingrese contraseña' required />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="administradorCheck">
+              <Form.Check
+                type="checkbox"
+                label="Ingresar como administrador"
+                checked={esAdmin}
+                onChange={(e) => setEsAdmin(e.target.checked)}
+              />
             </Form.Group>
 
             <Button variant="primary" type="submit" className="w-100" disabled={loading}>

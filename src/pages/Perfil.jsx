@@ -5,7 +5,7 @@ import {UsuarioData} from '../contexts/UsuarioReconocido';
 const PerfilUsuario=()=>{
   const {usuario}=useContext(UsuarioData)
 
-  // Esta validacion no es estictamente necesaria, pero "a vecea pasan cosas"! XD
+  // Esta validacion no es estictamente necesaria, pero "a veces pasan cosas"! XD
   if (!usuario || Object.keys(usuario).length === 0) {
     return (
       <div className="d-flex justify-content-center mt-4">
@@ -21,12 +21,14 @@ const PerfilUsuario=()=>{
         <Card>
           <Card.Img  variant='top' src={usuario.picture.large}/>
           <Card.Body>
+            {/*<h3>{usuario.nivel.toUpperCase()}</h3>*/}
             <Card.Title>
-              {usuario.name.first}{usuario.name.last}
+              <strong>{usuario.nivel.toUpperCase()}: </strong>
+              {usuario.name.first}; {usuario.name.last}
             </Card.Title>
             <Card.Text>
-              <strong>Email:</strong>{usuario.email}<br />
-              <strong>Ciudad:</strong> {usuario.location.city}
+              <strong>Email: </strong>{usuario.email}<br />
+              <strong>Ciudad: </strong> {usuario.location.city}
             </Card.Text>
           </Card.Body>
         </Card>
