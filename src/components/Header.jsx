@@ -1,16 +1,14 @@
 import { Navbar, Container, Nav, Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import Login from './Login'
-import { useContext } from 'react';
-import { UsuarioData } from '../contexts/UsuarioReconocido';
 
 export default function Header() {
   const navigate = useNavigate();
-  const isAuth = localStorage.getItem('auth') === 'true';
-  const { usuario } = useContext(UsuarioData);
+  const isAuth = !!localStorage.getItem('auth');
 
   const cerrarSesion = () => {
         localStorage.removeItem('auth');
+        localStorage.removeItem('nivel');
         navigate('/');
     };
 
@@ -46,14 +44,13 @@ export default function Header() {
             ) : (
               <>
               <Nav.Link as={Link} to="/perfil/usuario">Perfil</Nav.Link>
-              {usuario?.nivel === 'administrador' && (
+              {localStorage.getItem('nivel') === 'administrador' && (
                 <Nav.Link as={Link} to="/admin">Administrar</Nav.Link>
               )}
               <Button variant="outline-light" onClick={cerrarSesion}>Cerrar sesión</Button>
               </>
             )}
           </Nav>
-
         </Navbar.Collapse>
       </Container>
     </Navbar>

@@ -1,12 +1,10 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { Button, Modal ,Spinner, Form} from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import {UsuarioData} from '../contexts/UsuarioReconocido';
 
 const VentanaLogin = () => {
   
   const navigate = useNavigate();
-  const { setUsuario } = useContext(UsuarioData);
   const [esAdmin, setEsAdmin] = useState(false);
 
 
@@ -28,11 +26,11 @@ const VentanaLogin = () => {
       .then(res => {
         if (!res.ok) { throw new Error('Error de red o respuesta del servidor fallida');}
         return res.json();
-      })
+      })// Es caso de haya conexión, pero el servidor responde que la solicitud es inválida o que él falló.
 
       .then(data=>{
-        setUsuario({ nivel: esAdmin ? 'administrador' : 'usuario', ...data.results[0] });
-        localStorage.setItem('auth', 'true');
+        localStorage.setItem('auth', data.info.seed);
+        localStorage.setItem('nivel', esAdmin ? 'administrador' : 'usuario');
         setShow(false);
         navigate('/');
       })
@@ -40,11 +38,11 @@ const VentanaLogin = () => {
       .catch(error=>{
         console.error('Error al cargar usuario',error)
         alert('No se pudo cargar el usuario. Inténtalo de nuevo.');
-      })
+      })// No hay conexión con el servidor.
 
       .finally(() => {
         setLoading(false); // Siempre desactiva el loading, sin importar el resultado
-      }); 
+      }) 
   }
 
   return (
