@@ -15,7 +15,7 @@ import LoginFail from './pages/LoginFail'
 function App() {
   return (
     <div className="d-flex flex-column min-vh-100">
-      <BrowserRouter>
+      <BrowserRouter basename='/25235-Damian-Bouza-ReactJS'>
           <Header />
             <div className="flex-grow-1">
               <Routes>
