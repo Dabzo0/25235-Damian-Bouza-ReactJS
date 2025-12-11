@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 const VentanaLogin = () => {
   
   const navigate = useNavigate();
+  const [usuario, setUsuario] = useState('');
+  const [contrasena, setContrasena] = useState('');
   const [esAdmin, setEsAdmin] = useState(false);
 
 
@@ -14,8 +16,28 @@ const VentanaLogin = () => {
   const [loading, setLoading] = useState(false);
 
   {/*Funciones para abrir y cerrar*/}
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false)
+    setUsuario('');
+    setContrasena('');
+    setEsAdmin(false);
+  };
   const handleShow = () => setShow(true);
+
+  const handleEsAdmin = (e) => {
+    const isChecked = e.target.checked;
+    setEsAdmin(isChecked); // Actualiza el estado de administrador
+
+    // Si el checkbox está marcado, autocompleta los campos
+    if (isChecked) {
+      setUsuario('Admin');
+      setContrasena('1234');
+    } else {
+      // Si se desmarca, limpia los campos (o puedes dejar el valor anterior si lo prefieres)
+      setUsuario('');
+      setContrasena('');
+    }
+  };
 
   const handleLogin = (e) => {
     e.preventDefault();// Previene el recargo de la página por el formulario
@@ -65,12 +87,24 @@ const VentanaLogin = () => {
 
             <Form.Group className="mb-3">
               <Form.Label>Usuario</Form.Label>
-              <Form.Control type="text" placeholder='Ingrese usuario' required />
+              <Form.Control
+                type="text"
+                placeholder='Ingrese usuario'
+                value={usuario}
+                onChange={(e) => setUsuario(e.target.value)}
+                required
+              />
             </Form.Group>
 
             <Form.Group className="mb-3">
               <Form.Label>Contraseña</Form.Label>
-              <Form.Control type="password" placeholder='Ingrese contraseña' required />
+              <Form.Control
+                type="password"
+                placeholder='Ingrese contraseña'
+                value={contrasena}
+                onChange={(e) => setContrasena(e.target.value)}
+                required
+              />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="administradorCheck">
@@ -78,7 +112,7 @@ const VentanaLogin = () => {
                 type="checkbox"
                 label="Ingresar como administrador"
                 checked={esAdmin}
-                onChange={(e) => setEsAdmin(e.target.checked)}
+                onChange={handleEsAdmin}
               />
             </Form.Group>
 
