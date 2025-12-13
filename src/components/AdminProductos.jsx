@@ -1,6 +1,7 @@
 import { useState, useEffect} from 'react';
 import { Container, Button, Table, Form, Row, Col} from 'react-bootstrap'
 import AdminProductosModal from './AdminProductosModal';
+import { filtrarProductos } from '../Utils/filtrarProducto';
 
 const AdminProductos=()=> {
   const urlMockapi = 'https://69093d7f2d902d0651b316ac.mockapi.io/productos';
@@ -34,40 +35,14 @@ const AdminProductos=()=> {
       });
   };
 
-  const filtrarProductos = () => {
-        let lista = [...productos];
-
-        lista = lista.filter(prod => prod.io === !verBorrados);
-
-        if (productoABuscar.trim() !== '') {
-            lista = lista.filter(prod =>
-                prod.nombre && prod.nombre.toUpperCase().includes(productoABuscar.toUpperCase().trim())
-            );
-        }
-        setFiltroProductos(lista);
-  };
-
   useEffect(() => {
     obtenerProductos();
   }, []);
 
   useEffect(() => {
-        // Llama a filtrarProductos cada vez que productos, productoABuscar o verBorrados cambian.
-        filtrarProductos(productos);
+        const filtrado= filtrarProductos(productos,productoABuscar,'',verBorrados)
+        setFiltroProductos(filtrado)
     }, [productos, productoABuscar, verBorrados]);
-
-  const handleFiltroProductos = (e) => {
-        setProductoABuscar(e.target.value);
-    };
-
-  const handleVerBorrados = (e) => {
-        setVerBorrados(e.target.checked);
-    };
-  
-  const handleSuccess = () => {
-        obtenerProductos(); // Esto llama a obtenerProductos, que a su vez llama a aplicarFiltros
-        // También puedes simplemente llamar aplicarFiltros(searchTerm, showDeleted, productos) aquí
-    };
 
   if (loading) return <p>Cargando datos...</p>;
 
@@ -81,12 +56,12 @@ const AdminProductos=()=> {
       <Row className="align-items-end mt-2 mb-3">
         <Col md={4}>
           <Form.Group>
-            <Form.Label className="fw-bold mb-0">Buscar por Nombre</Form.Label>
+            <Form.Label className="fw-bold mb-0">Buscar producto</Form.Label>
             <Form.Control
               type="text"
               placeholder="Buscar coincidencias parciales..."
               value={productoABuscar}
-              onChange={handleFiltroProductos}
+              onChange={(e)=> setProductoABuscar(e.target.value)}
             />
           </Form.Group>
         </Col>
@@ -96,7 +71,7 @@ const AdminProductos=()=> {
               type="checkbox"
               label="Ver productos eliminados."
               checked={verBorrados}
-              onChange={handleVerBorrados}
+              onChange={(e)=> setVerBorrados(e.target.checked)}
               className="mt-4"
             />
           </Form.Group>
@@ -138,7 +113,12 @@ const AdminProductos=()=> {
                 </td>
                 <td>
                     <div className="fw-bold">{producto.nombre}</div>
-                    <small className="text-muted">{producto.descripcion.substring(0,30)}.-</small>
+                    <div className="text-muted">
+                      <small>{producto.descripcion.substring(0,30)}...</small>
+                    </div>
+                    <div className="text-muted">
+                      <small >{'[ '+producto.categoria+' ]'}</small>
+                    </div>   
                 </td>
                 <td className="text-end">{producto.stock}</td>
                 <td className="text-end">

@@ -22,7 +22,7 @@ const VentanaLogin = () => {
     setContrasena('');
     setEsAdmin(false);
   };
-  const handleShow = () => setShow(true);
+  //const handleShow = () => setShow(true);
 
   const handleEsAdmin = (e) => {
     const isChecked = e.target.checked;
@@ -69,8 +69,8 @@ const VentanaLogin = () => {
 
   return (
     <>
-      {/* Botón que activa la mini-ventana */}
-      <Button variant="primary" onClick={handleShow}>Loguin</Button>
+      {/* Botón que moestra el modal */}
+      <Button variant="primary" onClick={() => setShow(true)}>Loguin</Button>
 
       {/*EL COMPONENTE MODAL (LA MINI-VENTANA)*/}
       <Modal 

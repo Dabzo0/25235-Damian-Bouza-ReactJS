@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import ListaDeCategorias from './ListaCategoria'
 
 const AdminProductosModal = ({ show, producto, onClose, onSuccess }) => {
   const [datosProducto, setDatosProducto] = useState({});
   const [loading, setLoading] = useState(false);
+  const [categoria,setCategoria]=useState('');
   
   useEffect(() => {
     if (producto) {
       setDatosProducto(producto);
+      setCategoria(producto.categoria||'');      
     } else {
-      setDatosProducto({ nombre: '', descripcion: '', precio: 0, stock: 0, descuento: 0, imagen: '', io: true, preciofinal: 0});
+      setDatosProducto({ nombre: '', descripcion: '', precio: 0, stock: 0, descuento: 0, imagen: '', io: true, preciofinal: 0, categoria:''});
+      setCategoria('');
     }
   }, [producto, show]);
 
@@ -21,14 +25,14 @@ const AdminProductosModal = ({ show, producto, onClose, onSuccess }) => {
     });
   };
 
-  const urlMockapi = 'https://69093d7f2d902d0651b316ac.mockapi.io/productos'; //Esto tambiém podría ser un parámetro
+  const urlMockapi = 'https://69093d7f2d902d0651b316ac.mockapi.io/productos'; // Esto tambiém podría ser un parámetro
   
   const validarNombreDisponible = () => {
     const urlBusqueda = `${urlMockapi}/?nombre=${encodeURIComponent(datosProducto.nombre)}`;
 
     return fetch(urlBusqueda)
       .then(response => {
-        if (response.status === 404) {//MockApi devuelve 404 si no encuntra coincidencias (total o parcial), por lo que si la API dice 404 (No Encontrado), lo tratamos como éxito (array vacío)
+        if (response.status === 404) {// MockApi devuelve 404 si no encuntra coincidencias (total o parcial), por lo que si la API dice 404 (No Encontrado), se lo trata como éxito (array vacío)
             return []; 
         }
         if (!response.ok) {
@@ -86,7 +90,8 @@ const AdminProductosModal = ({ show, producto, onClose, onSuccess }) => {
       'descuento': descuento,
       'imagen': imagen,
       'io': io,
-      'preciofinal':precioFinal
+      'preciofinal':precioFinal,
+      'categoria':categoria
     } 
   };
 
@@ -134,7 +139,7 @@ const AdminProductosModal = ({ show, producto, onClose, onSuccess }) => {
     
     // Eliminación lógica
     if (datosProducto.io) {
-        const productoParaSoftDelete = { ...datosProducto, io: false };
+        const productoParaSoftDelete = { ...datosProducto, 'io': false };
         
         fetch(url, {
             method: 'PUT',
@@ -205,6 +210,10 @@ const AdminProductosModal = ({ show, producto, onClose, onSuccess }) => {
             <Form.Label>Descuento</Form.Label>
             <Form.Control name="descuento" value={datosProducto.descuento || 0} onChange={handleChange} type="number" disabled={!datosProducto.io}/>
             <Form.Text>Precio final: ${(datosProducto.precio*(1-datosProducto.descuento/100)).toFixed(2)}</Form.Text>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Categoría</Form.Label>
+            <ListaDeCategorias tipo={true} value={categoria} onChange={(e)=> setCategoria(e.target.value)} disabled={!datosProducto.io}/>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Descripción</Form.Label>

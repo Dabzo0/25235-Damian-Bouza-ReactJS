@@ -1,23 +1,26 @@
-import { useEffect, useState, useContext } from 'react';
-import { CategoriaSeleccionada } from '../contexts/SelectorCategoria';
+import { useEffect, useState } from 'react';
 
-function ListaDeCategorias() {
+const ListaDeCategorias= ({tipo=true,value,onChange,disabled=false}) => {
   const [categorias, setCategorias] = useState([]);
-  const { setCategoriaElegida } = useContext(CategoriaSeleccionada);
 
   useEffect(() => {
     fetch('https://fakestoreapi.com/products/categories')
       .then(res => res.json())
       .then(data => {
-        const sorted = data.sort((a, b) => a.localeCompare(b));
-        setCategorias(['Todos los productos', ...sorted]);
+        const catOrdenadas = data.sort((a, b) => a.localeCompare(b));
+        tipo? setCategorias(['Sin categoría', ...catOrdenadas]):
+        setCategorias(['Todos los productos', ...catOrdenadas,'Sin categoría']);
       });
   }, []);
 
   return (
-    <select className="form-select" onChange={(e) => setCategoriaElegida(e.target.value)}>
+    <select className="form-select"
+      value={value}
+      onChange={onChange}
+      disabled={disabled}
+    >
       {categorias.map((cat, index) => (
-        <option key={index} value={cat}>
+        <option key={index} value={cat} onChange={onChange}>
           {cat.charAt(0).toUpperCase() + cat.slice(1)}
         </option>
       ))}

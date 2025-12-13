@@ -14,8 +14,8 @@ const CardProducto=({producto,AgregarAlCarrito})=>{
 
             <Card.Img
                 variant="top"
-                src={producto.image}
-                alt={producto.title}
+                src={producto.imagen}
+                alt={producto.nombre}
                 className="rounded-top-3"
                 style={{ height: '200px', objectFit: 'contain' }}
             />
@@ -23,12 +23,12 @@ const CardProducto=({producto,AgregarAlCarrito})=>{
             <Card.Body className="d-flex flex-column">
                 <Card.Title
                     className="text-truncate" 
-                    title={producto.title}
-                >{producto.title}</Card.Title>
+                    title={producto.nombre}
+                >{producto.nombre}</Card.Title>
 
                 <Card.Text 
                     className="flex-grow-1">
-                    <h3 className="text-success">$ {producto.price}</h3>
+                    <h3 className="text-success">$ {producto.precio}</h3>
                 </Card.Text>
 
                 <Button
