@@ -123,7 +123,7 @@ const CarritoProductos=() => {
                 <p>¡Gracias por tu compra!</p>
             </Modal.Body>
             <Modal.Footer>
-                <p>Un gerentede ventas te contactará a la brebedad para coordinar el pago y el envío de los productos.</p>
+                <p>Un gerente de ventas te contactará próximamente para gestionar el pago y la entrega de los productos.</p>
             </Modal.Footer>
         </Modal>
         </>
