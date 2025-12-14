@@ -10,7 +10,8 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy-fix": "npm run build && copy dist\\index.html dist\\404.html && npm run deploy"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.1.0",
