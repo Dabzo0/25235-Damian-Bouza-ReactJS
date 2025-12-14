@@ -1,18 +1,18 @@
 import { Navbar, Container, Nav, Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
+import { useCarrito } from '../contexts/CarritoContext';
 import Login from './Login'
 
 export default function Header() {
   const navigate = useNavigate();
+  const { vaciarCarrito } = useCarrito();
   const isAuth = !!localStorage.getItem('auth');
 
   const cerrarSesion = () => {
-        localStorage.removeItem('auth');
-        localStorage.removeItem('nivel');
+        vaciarCarrito();
+        localStorage.clear();
         navigate('/');
     };
-
-
  
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
@@ -43,6 +43,7 @@ export default function Header() {
               <Login/>
             ) : (
               <>
+              <Nav.Link as={Link} to="/micarrito">Mi Carrito</Nav.Link>
               <Nav.Link as={Link} to="/perfil/usuario">Perfil</Nav.Link>
               {localStorage.getItem('nivel') === 'administrador' && (
                 <Nav.Link as={Link} to="/admin">Administrar</Nav.Link>

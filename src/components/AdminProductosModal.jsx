@@ -13,7 +13,7 @@ const AdminProductosModal = ({ show, producto, onClose, onSuccess }) => {
       setCategoria(producto.categoria||'');      
     } else {
       setDatosProducto({ nombre: '', descripcion: '', precio: 0, stock: 0, descuento: 0, imagen: '', io: true, preciofinal: 0, categoria:''});
-      setCategoria('');
+      setCategoria('Sin categoría');
     }
   }, [producto, show]);
 
@@ -165,24 +165,26 @@ const AdminProductosModal = ({ show, producto, onClose, onSuccess }) => {
     // Eliminación definitiva
     else {
         if (!window.confirm(`¿Estás seguro de ELIMINAR DEFINITIVAMENTE el producto "${datosProducto.nombre}"? Esta acción no se puede deshacer.`)) {
-            setLoading(false);
-            return; 
+          setLoading(false);
+          return; 
         }
 
         fetch(url, {
-            method: 'DELETE'
+          method: 'DELETE'
         })
         .then(response => {
-            if (!response.ok) throw new Error('Error al eliminar definitivamente');
-            alert(`Producto "${datosProducto.nombre}" eliminado definitivamente.`);
-            onSuccess();
-            onClose();
+          if (!response.ok) throw new Error('Error al eliminar definitivamente');
+          alert(`Producto "${datosProducto.nombre}" eliminado definitivamente.`);
+        })
+        .then(()=>{
+          onSuccess();
+          onClose();
         })
         .catch(error => {
-            alert(`Error de borrado definitivo: ${error.message}`);
+          alert(`Error de borrado definitivo: ${error.message}`); 
         })
         .finally(() => {
-            setLoading(false);
+          setLoading(false);  
         });
     }
 };
@@ -227,7 +229,7 @@ const AdminProductosModal = ({ show, producto, onClose, onSuccess }) => {
         <Modal.Footer>
           {producto && ( // Solo se muestra si se está editando un producto existente
             <Button variant={datosProducto.io ? "danger" : "dark"} onClick={handleDelete} disabled={loading}>
-                {datosProducto.io ? 'Eliminar' : 'Eliminar Definitivamente'}
+              {datosProducto.io ? 'Eliminar' : 'Eliminar Definitivamente'}
             </Button>
           )}
           <Button variant="primary" type="submit" disabled={loading}>

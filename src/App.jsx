@@ -4,23 +4,27 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import RutaProtegidaUsuario from './components/RutaProtegidaUsuario'
 import RutaProtegidaAdmin from './components/RutaProtegidaAdmin'
+import RutaProtegidaCarrito from './components/RutaProtegidaCarrito';
 import Administracion from './pages/Administracion'
 //import Inicio from './pages/Inicio' <-- Puede que en un futuro se agregue una pagina de inicio a la web
+import LoginFail from './pages/LoginFail'
+import MiCarrito from './pages/MiCarrito'
 import NoEncontrado from './pages/NoEncontrado'
 import Perfil from './pages/Perfil'
 import Productos from './pages/Productos'
-import LoginFail from './pages/LoginFail'
-
+import CarritoProvider from './contexts/CarritoContext';
 
 function App() {
   return (
     <div className="d-flex flex-column min-vh-100">
-      <BrowserRouter basename='/25235-Damian-Bouza-ReactJS'>
+      <CarritoProvider>
+        <BrowserRouter basename='/25235-Damian-Bouza-ReactJS'>
           <Header />
             <div className="flex-grow-1">
               <Routes>
                 <Route path="/" element={<Productos />} /> {/* Puede que en algun futuro se incorpore una pagino de inicio*/}
                 <Route path="/productos" element={<Productos />} />
+                <Route path="/micarrito" element={<RutaProtegidaCarrito><MiCarrito /></RutaProtegidaCarrito>} />
                 <Route path="/perfil/:id" element={<RutaProtegidaUsuario><Perfil /></RutaProtegidaUsuario>} />
                 <Route path="/admin" element={<RutaProtegidaAdmin><Administracion /></RutaProtegidaAdmin>} />
                 <Route path="/loginFail" element={<LoginFail />}/>
@@ -28,7 +32,8 @@ function App() {
               </Routes>
             </div>   
           <Footer />
-    </BrowserRouter>
+        </BrowserRouter>
+      </CarritoProvider>
     </div>
   )
 }

@@ -77,86 +77,77 @@ const AdminProductos=()=> {
           </Form.Group>
         </Col>
         <Col md={3} className="text-end">
-          <Button
-              onClick={() => abrirModal()}> 
-              + Agregar Nuevo Producto
+          <Button onClick={() => abrirModal()}> 
+            + Agregar Nuevo Producto
           </Button>
         </Col>     
       </Row>  
-        <Table striped bordered hover className='mt-2'>
-            <thead className="thead-dark">
+      <Table striped bordered hover className='mt-2'>
+        <thead className="thead-dark">
+          <tr>
+            <th style={{ width: '70px' }}></th>
+            <th>Producto</th>
+            <th className="text-center">Stock</th>
+            <th className="text-center">Precio</th>
+            <th style={{ width: '150px' }}></th> 
+          </tr>
+        </thead>
+        <tbody>
+          {filtroProductos.length === 0 ? (
             <tr>
-                <th style={{ width: '70px' }}></th>
-                <th>Producto</th>
-                <th className="text-center">Stock</th>
-                <th className="text-center">Precio</th>
-                <th style={{ width: '150px' }}></th> 
+              <td colSpan="5" className="text-center text-muted">
+                No se encontraron productos con los filtros aplicados.
+              </td>
             </tr>
-            </thead>
-            <tbody>
-            {filtroProductos.length === 0 ? (
-              <tr>
-                <td colSpan="5" className="text-center text-muted">
-                  No se encontraron productos con los filtros aplicados.
-                </td>
-              </tr>
-            ):
-            (filtroProductos.map((producto) => (
-                <tr key={producto.id}>
-                <td className="align-middle text-center">
-                    <img 
-                    src={producto.imagen}
-                    alt={producto.nombre} 
-                    style={{ width: '50px', height: '50px', objectFit: 'cover' }}
-                    className="img-thumbnail"
-                    />
-                </td>
-                <td>
-                    <div className="fw-bold">{producto.nombre}</div>
-                    <div className="text-muted">
-                      <small>{producto.descripcion.substring(0,30)}...</small>
-                    </div>
-                    <div className="text-muted">
-                      <small >{'[ '+producto.categoria+' ]'}</small>
-                    </div>   
-                </td>
-                <td className="text-end">{producto.stock}</td>
-                <td className="text-end">
-                    {producto.descuento>0?(
-                    <div>
-                        <span className="text-decoration-line-through me-2">
-                        ${producto.precio}
-                        </span>
-                        <span >
-                        ${(producto.precio*(1-producto.descuento/100)).toFixed(2)}
-                        </span>
-                        <div>
-                        {producto.descuento}% OFF
-                        </div>
-                    </div>
-                    ):(
-                    <span>
-                        $ {producto.precio}
-                    </span>
-                    )}
-                </td>              
-                <td className="text-end align-middle">
-                    <Button 
-                        className="btn btn-warning btn-sm me-2"
-                        onClick={() => abrirModal(producto)}>
-                        Editar
-                    </Button>
-                </td>
-                </tr>
-            )))}
-            </tbody>
-        </Table>
-        <AdminProductosModal 
-            show={showModal}
-            producto={productoSeleccionado}
-            onClose={() => setShowModal(false)}
-            onSuccess={obtenerProductos}
-        />
+          ):(
+            filtroProductos.map((producto) => (
+              <tr key={producto.id}>
+              <td className="align-middle text-center">
+                <img 
+                  src={producto.imagen}
+                  alt={producto.nombre} 
+                  style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                  className="img-thumbnail"
+                />
+              </td>
+              <td>
+                <div className="fw-bold">{producto.nombre}</div>
+                <div className="text-muted">
+                  <small>{producto.descripcion.substring(0,30)}...</small>
+                </div>
+                <div className="text-muted">
+                  <small >{'[ '+producto.categoria+' ]'}</small>
+                </div>   
+              </td>
+              <td className="text-end">{producto.stock}</td>
+              <td className="text-end">
+                {producto.descuento>0?(
+                  <div>
+                    <span className="text-decoration-line-through me-2">${producto.precio}</span>
+                    <span >${(producto.precio*(1-producto.descuento/100)).toFixed(2)}</span>
+                    <div> {producto.descuento}% OFF</div>
+                  </div>
+                ):(
+                  <span>$ {producto.precio}</span>
+                )}
+              </td>              
+              <td className="text-end align-middle">
+                <Button 
+                  className="btn btn-warning btn-sm me-2"
+                  onClick={() => abrirModal(producto)}>
+                  Editar
+                </Button>
+              </td>
+            </tr>
+          )))}
+        </tbody>
+      </Table>
+      <AdminProductosModal 
+        show={showModal}
+        producto={productoSeleccionado}
+        onClose={() => setShowModal(false)}
+        onSuccess={obtenerProductos}
+      />
     </Container>
   )
 };

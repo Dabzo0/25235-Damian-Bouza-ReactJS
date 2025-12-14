@@ -4,6 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 
 const CardProducto=({producto,AgregarAlCarrito})=>{
+    const isAuth = !!localStorage.getItem('auth');
+    //const handleClick = () => {
+        //AgregarAlCarrito(producto); 
+    //};
     return(
         <Card className="h-80 d-flex flex-column rounded-3 shadow-lg"
             style={{
@@ -27,14 +31,15 @@ const CardProducto=({producto,AgregarAlCarrito})=>{
                 >{producto.nombre}</Card.Title>
 
                 <Card.Text 
-                    className="flex-grow-1">
-                    <h3 className="text-success">$ {producto.precio}</h3>
+                    className="flex-grow-1 fs-3 text-success">
+                    $ {producto.precio}
                 </Card.Text>
 
                 <Button
                     variant="primary"
                     onClick={()=>AgregarAlCarrito(producto)}
-                    className="mt-auto border-top pt-2">
+                    className="mt-auto border-top pt-2"
+                    disabled={!isAuth}>
                     <FontAwesomeIcon icon={faCartPlus} className="me-2" />
                     {/*<FontAwesomeIcon icon={faCartPlus} style={{color: "#ffffff",}} />*/}
                 Agregar al carrito</Button>

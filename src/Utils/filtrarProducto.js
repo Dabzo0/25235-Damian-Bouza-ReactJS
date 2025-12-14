@@ -16,13 +16,9 @@ export const filtrarProductos = (productos=[], productoABuscar='', productoCateg
             );
         }
     
-    lista.sort((a, b) => { // Esto me lo tiro Gemini porque no lagraba que me quede ordenada como yo queria ._.
-        // 1. Manejar productos sin nombre para evitar errores
+    lista.sort((a, b) => {
         const nombreA = a.nombre || '';
         const nombreB = b.nombre || '';
-
-        // 2. Usar localeCompare para una comparación alfabética robusta
-        //    (especialmente útil para idiomas con acentos o caracteres especiales)
         return nombreA.localeCompare(nombreB);
     });
 
